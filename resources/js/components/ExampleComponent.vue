@@ -18,6 +18,10 @@
     export default {
         mounted() {
             console.log('Component mounted.')
+            axios.get('/api/posts')
+                .then(response=> {
+                   console.log(response.data)
+                });
         }
     }
 </script>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Http\Controllers\Repositories\PostsRepository;
 use App\Post;
 use App\User;
 use Illuminate\Http\Request;
@@ -10,13 +11,23 @@ use Illuminate\Http\Request;
 class PostsController extends Controller
 {
     /**
+     * @var PostsRepository
+     */
+    private $postsRepository;
+
+    public function __construct(PostsRepository $postsRepository)
+    {
+        $this->postsRepository = $postsRepository;
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $posts = Post::with(['category'])->orderBy('id', 'desc')->get();
+        $posts = $this->postsRepository->index();
 
         return view('posts', compact('posts'));
     }
